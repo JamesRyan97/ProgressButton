@@ -22,9 +22,8 @@ dependencies {
 
 
 ### Using View
-2. Add `ProgressButton` into your activity
+1. Add `ProgressButton` into your activity
  ```xml
- <!-- Image Cropper fill the remaining available height -->
  <james.ryan.progressbutton.ProgressButton
         android:id="@+id/btnActive"
         android:paddingBottom="4dp"
@@ -44,5 +43,22 @@ dependencies {
         app:loading_style="FadingCircle"
         android:background="@drawable/bg_button_red"/>
  ```
+ 
+ 2. Click event
+ ```
+ final ProgressButton progressButton = findViewById(R.id.btnActive);
+ progressButton.setOnClickListener(new ProgressButton.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Your Code
+            }
+        });
+```
+3. Update the status of the button
+```
+ progressButton.onCompleted(isSuccess);
+ ```
+	
+	
  
  
