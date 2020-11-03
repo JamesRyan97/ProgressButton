@@ -45,7 +45,7 @@ dependencies {
  ```
  
  2. Click event
- ```
+ ```java
  final ProgressButton progressButton = findViewById(R.id.btnActive);
  progressButton.setOnClickListener(new ProgressButton.OnClickListener() {
             @Override
@@ -55,7 +55,7 @@ dependencies {
         });
 ```
 3. Update the status of the button
-```
+```java
  progressButton.onCompleted(isSuccess);
  ```
 	
