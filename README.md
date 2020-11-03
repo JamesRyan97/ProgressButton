@@ -1,19 +1,21 @@
 # ProgressButton
+# How to
+# To get a ProgressButton into your build:
 
-### please use jitpack
+# Step 1. Add the JitPack repository to your build file
 
 ```
 allprojects {
 		repositories {
 			...
-			maven { url "https://jitpack.io" }
+			maven { url 'https://jitpack.io' }
 		}
-}
+	}
 ```
 
-### Gradle
+### Step 2. Add the dependency
 ```
 dependencies {
-    implementation 'com.github.jamesryan97:ProgressButton:1.0.0'
+    implementation 'com.github.JamesRyan97:ProgressButton:1.0.0'
 }
 ```
