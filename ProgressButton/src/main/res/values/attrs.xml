@@ -1,0 +1,35 @@
+<resources>
+    <declare-styleable name="ProgressButton">
+        <attr name="loading_color" format="color"/>
+        <attr name="icon_success" format="reference"/>
+        <attr name="icon_fail" format="reference"/>
+        <attr name="loading_type" format="reference"/>
+        <attr name="text_color" format="color"/>
+        <attr name="text" format="string"/>
+        <attr name="text_loading" format="string"/>
+        <attr name="text_success" format="string"/>
+        <attr name="text_error" format="string"/>
+        <attr name="text_size" format="dimension"/>
+        <attr name="text_all_caps" format="boolean"/>
+        <attr name="width_loading" format="dimension"/>
+        <attr name="height_loading" format="dimension"/>
+
+        <attr name="loading_style">
+            <enum name="RotatingPlane" value="0"/>
+            <enum name="DoubleBounce" value="1"/>
+            <enum name="Wave" value="2"/>
+            <enum name="WanderingCubes" value="3"/>
+            <enum name="Pulse" value="4"/>
+            <enum name="ChasingDots" value="5"/>
+            <enum name="ThreeBounce" value="6"/>
+            <enum name="Circle" value="7"/>
+            <enum name="CubeGrid" value="8"/>
+            <enum name="FadingCircle" value="9"/>
+            <enum name="FoldingCube" value="10"/>
+            <enum name="RotatingCircle" value="11"/>
+            <enum name="MultiplePulse" value="12"/>
+            <enum name="PulseRing" value="13"/>
+            <enum name="MultiplePulseRing" value="14"/>
+        </attr>
+    </declare-styleable>
+</resources>

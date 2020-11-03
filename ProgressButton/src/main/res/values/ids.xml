@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="skvLoading" type="id"/>
+    <item name="tvActive" type="id"/>
+    <item name="imvLeftActive" type="id"/>
+</resources>
