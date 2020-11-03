@@ -1,5 +1,8 @@
 # ProgressButton
 
+# NOTE
+Project that uses the support library of [Android-SpinKit](https://github.com/ybq/Android-SpinKit)
+
 ## Usage
 
 #### Step 1. Add the JitPack repository to your build file
