@@ -19,7 +19,7 @@ allprojects {
 #### Step 2. Add the dependency
 ```
 dependencies {
-    implementation 'com.github.JamesRyan97:ProgressButton:1.0.0'
+    implementation 'com.github.JamesRyan97:ProgressButton: latest-version'
 }
 ```
 
@@ -60,6 +60,11 @@ dependencies {
 3. Update the status of the button
 ```java
  progressButton.onCompleted(isSuccess);
+ ```
+ 
+ 4. Reset the initial state of the button
+ ```java
+ progressButton.resetState();
  ```
 	
 	
