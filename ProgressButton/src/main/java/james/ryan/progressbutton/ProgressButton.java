@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -304,6 +305,7 @@ public class ProgressButton extends RelativeLayout {
         );
     }
 
+
     /**
      * State of action
      * @param isSuccess status
@@ -358,63 +360,88 @@ public class ProgressButton extends RelativeLayout {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if(event.getAction() == MotionEvent.ACTION_DOWN){
-            if(onClickListener != null && isClickable()){
-
-                countTimer = 0;
-
-                //Add timer
-                if(timerLoading == null){
-                    timerLoading = new Timer();
-                }
-
-                timerLoading.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        if(countTimer < 3){
-                            //Add marks "." behind the content
-                            final StringBuilder content = new StringBuilder(mTextLoading);
-                            switch (countTimer){
-                                case 0:
-                                    content.append(".");
-                                    break;
-                                case 1:
-                                    content.append("..");
-                                    break;
-                                case 2:
-                                    content.append("...");
-                                    break;
-                            }
-
-                            ((Activity)getContext()).runOnUiThread(new TimerTask() {
-                                @Override
-                                public void run() {
-                                    tvContent.setText(isAllCaps ? content.toString().toUpperCase() : content);
-                                }
-                            });
-
-
-                            countTimer++;
-                        }else{
-                            countTimer = 0;
-                            ((Activity)getContext()).runOnUiThread(new TimerTask() {
-                                @Override
-                                public void run() {
-                                    tvContent.setText(isAllCaps ? mTextLoading.toUpperCase() : mTextLoading);
-                                }
-                            });
-                        }
-                    }
-                },50,500);
-
-                skvLoading.setVisibility(VISIBLE);
-                imvLeft.setVisibility(INVISIBLE);
-                onClickListener.onClick(ProgressButton.this);
-
-                //Turn off the click event
-                setClickable(false);
-            }
+            actionClick();
         }
         return super.onTouchEvent(event);
+    }
+
+    private void actionClick(){
+        if(onClickListener != null && isClickable()){
+
+            countTimer = 0;
+
+            //Add timer
+            if(timerLoading == null){
+                timerLoading = new Timer();
+            }
+
+            timerLoading.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    if(countTimer < 3){
+                        //Add marks "." behind the content
+                        final StringBuilder content = new StringBuilder(mTextLoading);
+                        switch (countTimer){
+                            case 0:
+                                content.append(".");
+                                break;
+                            case 1:
+                                content.append("..");
+                                break;
+                            case 2:
+                                content.append("...");
+                                break;
+                        }
+
+                        ((Activity)getContext()).runOnUiThread(new TimerTask() {
+                            @Override
+                            public void run() {
+                                tvContent.setText(isAllCaps ? content.toString().toUpperCase() : content);
+                            }
+                        });
+
+
+                        countTimer++;
+                    }else{
+                        countTimer = 0;
+                        ((Activity)getContext()).runOnUiThread(new TimerTask() {
+                            @Override
+                            public void run() {
+                                tvContent.setText(isAllCaps ? mTextLoading.toUpperCase() : mTextLoading);
+                            }
+                        });
+                    }
+                }
+            },50,500);
+
+            skvLoading.setVisibility(VISIBLE);
+            imvLeft.setVisibility(INVISIBLE);
+            onClickListener.onClick(ProgressButton.this);
+
+            //Turn off the click event
+            setClickable(false);
+        }
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if(event.getAction() == MotionEvent.ACTION_UP) {
+            if(onClickListener != null  && isClickable()){
+                actionClick();
+            }
+        }
+        return super.dispatchTouchEvent(event);
+    }
+
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if(event.getAction() == KeyEvent.ACTION_UP && (event.getKeyCode() == KeyEvent.KEYCODE_DPAD_CENTER || event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
+            if(onClickListener != null  && isClickable()){
+                actionClick();
+            }
+        }
+        return super.dispatchKeyEvent(event);
     }
 
     public interface OnClickListener{
