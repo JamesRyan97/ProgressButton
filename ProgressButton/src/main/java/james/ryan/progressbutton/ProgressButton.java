@@ -1,6 +1,7 @@
 package james.ryan.progressbutton;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -332,6 +333,27 @@ public class ProgressButton extends RelativeLayout {
     }
 
 
+    /**
+     * Reset button state
+     */
+    public void resetState(){
+        //Turn on the click event
+        setClickable(true);
+
+        //Cancel timer
+        if(timerLoading != null){
+            timerLoading.cancel();
+            timerLoading = null;
+            countTimer = 0;
+        }
+
+        skvLoading.setVisibility(INVISIBLE);
+        imvLeft.setVisibility(INVISIBLE);
+
+        tvContent.setText(isAllCaps ? mText.toUpperCase() : mText);
+    }
+
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -350,7 +372,7 @@ public class ProgressButton extends RelativeLayout {
                     public void run() {
                         if(countTimer < 3){
                             //Add marks "." behind the content
-                            StringBuilder content = new StringBuilder(mTextLoading);
+                            final StringBuilder content = new StringBuilder(mTextLoading);
                             switch (countTimer){
                                 case 0:
                                     content.append(".");
@@ -362,11 +384,24 @@ public class ProgressButton extends RelativeLayout {
                                     content.append("...");
                                     break;
                             }
-                            tvContent.setText(isAllCaps ? content.toString().toUpperCase() : content);
+
+                            ((Activity)getContext()).runOnUiThread(new TimerTask() {
+                                @Override
+                                public void run() {
+                                    tvContent.setText(isAllCaps ? content.toString().toUpperCase() : content);
+                                }
+                            });
+
+
                             countTimer++;
                         }else{
                             countTimer = 0;
-                            tvContent.setText(isAllCaps ? mTextLoading.toUpperCase() : mTextLoading);
+                            ((Activity)getContext()).runOnUiThread(new TimerTask() {
+                                @Override
+                                public void run() {
+                                    tvContent.setText(isAllCaps ? mTextLoading.toUpperCase() : mTextLoading);
+                                }
+                            });
                         }
                     }
                 },50,500);
