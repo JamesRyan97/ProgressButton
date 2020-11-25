@@ -209,7 +209,7 @@ public class ProgressButton extends RelativeLayout {
         initView(context, attrs);
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
+      @SuppressLint("UseCompatLoadingForDrawables")
     public void initView(Context context, AttributeSet attrs){
         setClickable(true);
         setFocusable(true);
@@ -238,11 +238,11 @@ public class ProgressButton extends RelativeLayout {
 
         //Init default the drawables
         dwError = mTypedArray.getDrawable(R.styleable.ProgressButton_icon_fail) == null ?
-                getResources().getDrawable(R.drawable.ic_outline_cancel_24) :
+                context.getDrawable(R.drawable.ic_outline_cancel_24) :
                 mTypedArray.getDrawable(R.styleable.ProgressButton_icon_fail);
 
         dwSuccess =  mTypedArray.getDrawable(R.styleable.ProgressButton_icon_success) == null ?
-                getResources().getDrawable(R.drawable.ic_baseline_check_circle_outline_24) :
+                context.getDrawable(R.drawable.ic_baseline_check_circle_outline_24) :
                 mTypedArray.getDrawable(R.styleable.ProgressButton_icon_success);
         dwError.setTint(mLoadingColor);
         dwSuccess.setTint(mLoadingColor);
@@ -305,14 +305,11 @@ public class ProgressButton extends RelativeLayout {
         );
     }
 
-
     /**
      * State of action
      * @param isSuccess status
      */
     public void onCompleted(boolean isSuccess){
-        //Turn on the click event
-        setClickable(true);
 
         //Cancel timer
         if(timerLoading != null){
@@ -332,6 +329,9 @@ public class ProgressButton extends RelativeLayout {
             tvContent.setText(isAllCaps ? mTextError.toUpperCase() : mTextError);
             imvLeft.setImageDrawable(dwError);
         }
+
+        //Turn on the click event
+        setClickable(true);
     }
 
 
@@ -356,20 +356,13 @@ public class ProgressButton extends RelativeLayout {
     }
 
 
-    @SuppressLint("ClickableViewAccessibility")
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if(event.getAction() == MotionEvent.ACTION_DOWN){
-            actionClick();
-        }
-        return super.onTouchEvent(event);
-    }
-
     private void actionClick(){
-        if(onClickListener != null && isClickable()){
+
+        if(isClickable()){
+            //Turn off the click event
+            setClickable(false);
 
             countTimer = 0;
-
             //Add timer
             if(timerLoading == null){
                 timerLoading = new Timer();
@@ -416,19 +409,19 @@ public class ProgressButton extends RelativeLayout {
 
             skvLoading.setVisibility(VISIBLE);
             imvLeft.setVisibility(INVISIBLE);
-            onClickListener.onClick(ProgressButton.this);
 
-            //Turn off the click event
-            setClickable(false);
+            if(onClickListener != null){
+                onClickListener.onClick(ProgressButton.this);
+            }
+
         }
     }
+
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         if(event.getAction() == MotionEvent.ACTION_UP) {
-            if(onClickListener != null  && isClickable()){
-                actionClick();
-            }
+            actionClick();
         }
         return super.dispatchTouchEvent(event);
     }
@@ -437,9 +430,7 @@ public class ProgressButton extends RelativeLayout {
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         if(event.getAction() == KeyEvent.ACTION_UP && (event.getKeyCode() == KeyEvent.KEYCODE_DPAD_CENTER || event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
-            if(onClickListener != null  && isClickable()){
-                actionClick();
-            }
+            actionClick();
         }
         return super.dispatchKeyEvent(event);
     }
